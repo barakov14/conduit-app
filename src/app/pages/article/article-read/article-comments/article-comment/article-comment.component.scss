@@ -1,0 +1,23 @@
+.avatar {
+  width: 2rem;
+  margin-right: 0.5rem;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.date {
+  opacity: 0.6;
+  font-size: 0.6rem;
+}
+
+.author__name {
+  color: rgb(30, 180, 86);
+}
+.author__name:hover {
+  opacity: 0.7;
+  transition: 0.2s ease-in;
+}
+
+.author-not-current-user {
+  display: none;
+}

@@ -14,5 +14,7 @@ import {Router} from '@angular/router'
 export class ArticleCreateButtonComponent {
   private readonly router = inject(Router)
 
-  onRedirectToCreateArticle() {}
+  onRedirectToCreateArticle() {
+    this.router.navigate(['/create'])
+  }
 }

@@ -1,5 +1,5 @@
 <mat-toolbar>
-  <span class="cursor-pointer" routerLink="/">conduit</span>
+  <span class="cursor-pointer" [routerLink]="['/articles']">conduit</span>
   <span class="spacer"></span>
   <article-create-button></article-create-button>
   <button mat-icon-button (click)="onSwitchMode()">
@@ -11,25 +11,31 @@
     </ng-template>
   </button>
   <span class="vertical-line"></span>
-  <button [matMenuTriggerFor]="menu" class="avatar-button">
-    <img
-      class="avatar-image"
-      src="https://kartinki.pics/uploads/posts/2022-03/thumbs/1646961318_2-kartinkin-net-p-kartinki-dlya-profilya-stim-2.jpg"
-      alt="User Avatar"
-    />
-  </button>
+  @if((currentUser | async); as currentUser) {
+    <button [matMenuTriggerFor]="menu" class="avatar-button">
+      <img
+        class="avatar-image"
+        [src]="currentUser.user.image"
+        alt="User Avatar"
+      />
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item [routerLink]="['/profile/user', currentUser.user.username]">
+        <mat-label>Profile</mat-label>
+        <mat-icon>person</mat-icon>
+      </button>
+      <button mat-menu-item [routerLink]="['/profile/edit']">
+        <mat-label>Settings</mat-label>
+        <mat-icon>settings</mat-icon>
+      </button>
+      <button mat-menu-item (click)="logout()">
+        <mat-label>Logout</mat-label>
+        <mat-icon>exit_to_app</mat-icon>
+      </button>
+    </mat-menu>
+  }
+  <button mat-raised-button [ngClass]="{'none': (isLoggedIn | async)}" color="primary" routerLink="/login">Sign In</button>
 </mat-toolbar>
-<mat-menu #menu="matMenu">
-  <button mat-menu-item>
-    <mat-label>Profile</mat-label>
-    <mat-icon>person</mat-icon>
-  </button>
-  <button mat-menu-item routerLink="/profile/edit">
-    <mat-label>Settings</mat-label>
-    <mat-icon>settings</mat-icon>
-  </button>
-  <button mat-menu-item>
-    <mat-label>Logout</mat-label>
-    <mat-icon>exit_to_app</mat-icon>
-  </button>
-</mat-menu>
+
+
+

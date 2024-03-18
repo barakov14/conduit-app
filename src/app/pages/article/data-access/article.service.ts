@@ -5,7 +5,7 @@ import {
   ArticleComments,
   ArticlesList,
   CreateArticle,
-  DeleteCommentFromArticle,
+  DeleteCommentFromArticle, GetArticle,
   PublishCommentBody,
   PublishCommentToArticle,
   Tags,
@@ -22,16 +22,16 @@ export class ArticleService {
     return this.apiService.get<Tags[]>('/tags')
   }
 
-  public loadArticles(): Observable<ArticlesList> {
-    return this.apiService.get<ArticlesList>('/articles')
+  public loadArticles(feed: string): Observable<ArticlesList> {
+    return this.apiService.get<ArticlesList>(`/articles${feed}`)
   }
 
   public createArticle(data: CreateArticle): Observable<ArticlesList> {
     return this.apiService.post<ArticlesList, CreateArticle>('/articles', data)
   }
 
-  public loadArticle(slug: string): Observable<Article> {
-    return this.apiService.get<Article>(`/articles/${slug}`)
+  public loadArticle(slug: string): Observable<GetArticle> {
+    return this.apiService.get<GetArticle>(`/articles/${slug}`)
   }
 
   public updateArticle(req: UpdateArticle): Observable<Article> {

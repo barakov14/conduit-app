@@ -1,4 +1,11 @@
+
 <feed-tabs>
-  <articles-card></articles-card>
+    @for(article of articlesList.articles; track $index) {
+      <articles-card
+        [article]="article"
+        (favorite)="onFavoriteArticle($event)"
+        [loadingStatus]="loadingStatus"
+      ></articles-card>
+    }
 </feed-tabs>
 

@@ -1,1 +1,13 @@
-<article-read></article-read>
+<ng-container *ngrxLet="{
+  getArticle: article$,
+  loadingStatus: loadingStatus$
+} as vm">
+  @if (vm.loadingStatus === 'loaded' && vm.getArticle) {
+    <article-read
+      [article]="vm.getArticle.article"
+    ></article-read>
+  }
+  @if(vm.loadingStatus === 'loading') {
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  }
+</ng-container>

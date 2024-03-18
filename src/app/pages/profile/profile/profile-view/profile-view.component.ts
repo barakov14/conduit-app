@@ -1,10 +1,15 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core'
+import {ChangeDetectionStrategy, Component, inject, Input, OnInit} from '@angular/core'
 import {MatButton} from '@angular/material/button'
 import {MatCard, MatCardActions, MatCardContent} from '@angular/material/card'
 import {MatIcon} from '@angular/material/icon'
 import {MatLabel} from '@angular/material/form-field'
 import {MatTab, MatTabGroup} from '@angular/material/tabs'
-import {RouterLink} from '@angular/router'
+import {ActivatedRoute, RouterLink} from '@angular/router'
+import {GetCurrentUser} from "../../../../core/api-types/user";
+import {UserProfile} from "../../../../core/api-types/profile";
+import {Observable} from "rxjs";
+import {AsyncPipe, NgClass} from "@angular/common";
+import {LoadingStatus} from "../../../../core/data-access/loading-status.type";
 
 @Component({
   selector: 'profile-view',
@@ -19,9 +24,15 @@ import {RouterLink} from '@angular/router'
     MatTab,
     MatTabGroup,
     RouterLink,
+    NgClass,
+    AsyncPipe,
   ],
   templateUrl: './profile-view.component.html',
   styleUrl: './profile-view.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProfileViewComponent {}
+export class ProfileViewComponent {
+  @Input() user!: UserProfile | null | undefined
+  @Input() currentUser!: GetCurrentUser | null | undefined
+  @Input() loadingStatus!: LoadingStatus
+}

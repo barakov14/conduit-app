@@ -1,7 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
+  EventEmitter, inject, Input,
   Output,
 } from '@angular/core'
 import {
@@ -17,6 +17,11 @@ import {MatFormField, MatLabel} from '@angular/material/form-field'
 import {MatInput} from '@angular/material/input'
 import {RouterLink} from '@angular/router'
 import {LoginUser} from '../../../api-types/auth'
+import {select, Store} from "@ngrx/store";
+import {selectAuthStatus} from "../../data-access/+state/auth.selectors";
+import {AsyncPipe} from "@angular/common";
+import {LoadingStatus} from "../../../data-access/loading-status.type";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'login-form-ui',
@@ -31,6 +36,7 @@ import {LoginUser} from '../../../api-types/auth'
     MatLabel,
     ReactiveFormsModule,
     RouterLink,
+    AsyncPipe,
   ],
   templateUrl: './login-form-ui.component.html',
   styleUrl: './login-form-ui.component.scss',
@@ -40,9 +46,12 @@ export class LoginFormUiComponent {
   @Output() redirectToRegister = new EventEmitter<void>()
   @Output() login = new EventEmitter<LoginUser>()
 
+  @Input() loadingStatus!: Observable<LoadingStatus>
+
+
   public formGroup = new FormBuilder().group({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required]),
+    email: new FormControl('adikbarakov123@gmail.com', [Validators.required, Validators.email]),
+    password: new FormControl('123456', [Validators.required]),
   })
 
   onLogin() {

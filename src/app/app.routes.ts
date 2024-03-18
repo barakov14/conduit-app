@@ -1,12 +1,14 @@
 import {Routes} from '@angular/router'
-import {authGuard} from './core/auth/data-access/services/auth.guard'
-import {HomeComponent} from './pages/home/home.component'
+import {HomeComponent} from "./pages/home/home.component";
+import {CurrentUserResolver} from "./core/auth/data-access/resolvers/currentUser.resolver";
 
 export const routes: Routes = [
   {
     path: '',
-    canActivate: [authGuard],
     component: HomeComponent,
+    resolve: {
+      currentUser: CurrentUserResolver,
+    },
     children: [
       {
         path: 'profile',
@@ -19,7 +21,7 @@ export const routes: Routes = [
         loadChildren: () =>
           import('./pages/article/article.routes')
             .then((r) => r.ArticleRoutes)
-      }
+      },
     ]
   },
   {

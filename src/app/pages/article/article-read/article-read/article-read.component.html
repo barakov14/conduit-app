@@ -1,76 +1,59 @@
-<div class="article-page">
-  <div class="banner">
-    <div class="container">
-      <h1>How to build webapps that scale</h1>
+<div class="w-full mb-20">
+  <mat-card class="p-5">
+    <mat-card-title>
+      <h1>{{ article.title }}</h1>
+    </mat-card-title>
 
-      <div class="article-meta">
-        <a href="/profile/eric-simons"><img src="http://i.imgur.com/Qr71crq.jpg" /></a>
-        <div class="info">
-          <a href="/profile/eric-simons" class="author">Eric Simons</a>
-          <span class="date">January 20th</span>
+    <mat-card-content>
+
+      <div class="container page">
+        <div class="row article-content">
+          <div class="col-md-12">
+            <p>
+              {{ article.description }}
+            </p>
+          </div>
         </div>
-        <button class="btn btn-sm btn-outline-secondary">
-          <i class="ion-plus-round"></i>
-          &nbsp; Follow Eric Simons <span class="counter">(10)</span>
-        </button>
-        &nbsp;&nbsp;
-        <button class="btn btn-sm btn-outline-primary">
-          <i class="ion-heart"></i>
-          &nbsp; Favorite Post <span class="counter">(29)</span>
-        </button>
-        <button class="btn btn-sm btn-outline-secondary">
-          <i class="ion-edit"></i> Edit Article
-        </button>
-        <button class="btn btn-sm btn-outline-danger">
-          <i class="ion-trash-a"></i> Delete Article
-        </button>
       </div>
-    </div>
-  </div>
 
-  <div class="container page">
-    <div class="row article-content">
-      <div class="col-md-12">
-        <p>
-          Web development technologies have evolved at an incredible clip over the past few years.
-        </p>
-        <h2 id="introducing-ionic">Introducing RealWorld.</h2>
-        <p>It's a great solution for learning how other frameworks work.</p>
-        <ul class="tag-list">
-          <li class="tag-default tag-pill tag-outline">realworld</li>
-          <li class="tag-default tag-pill tag-outline">implementations</li>
-        </ul>
-      </div>
-    </div>
-
-    <hr />
-
-    <div class="article-actions">
-      <div class="article-meta">
-        <a href="profile.html"><img src="http://i.imgur.com/Qr71crq.jpg" /></a>
-        <div class="info">
-          <a href="" class="author">Eric Simons</a>
-          <span class="date">January 20th</span>
+      <div class="flex justify-between">
+        <div class="flex items-center">
+          <a [routerLink]="['/profile/user', article.author.username]" class="mr-2 avatar"><img class="avatar" [src]="article.author.image" /></a>
+          <div class="flex flex-col mr-2">
+            <a [routerLink]="['/profile/user', article.author.username]" class="author__name">{{ article.author.username }}</a>
+            <span class="date">{{ article.createdAt | date:'dd MMMM yyyy' }}</span>
+          </div>
+          <div class="post-actions">
+            <button mat-flat-button class="ml-2 mr-2" color="primary">
+              Subscribe
+            </button>
+            <button mat-stroked-button class="favorite-button" color="primary">
+              Favorite
+            </button>
+          </div>
         </div>
-
-        <button class="btn btn-sm btn-outline-secondary">
-          <i class="ion-plus-round"></i>
-          &nbsp; Follow Eric Simons
-        </button>
-        &nbsp;
-        <button class="btn btn-sm btn-outline-primary">
-          <i class="ion-heart"></i>
-          &nbsp; Favorite Article <span class="counter">(29)</span>
-        </button>
-        <button class="btn btn-sm btn-outline-secondary">
-          <i class="ion-edit"></i> Edit Article
-        </button>
-        <button class="btn btn-sm btn-outline-danger">
-          <i class="ion-trash-a"></i> Delete Article
-        </button>
+        <mat-chip-set class="float-end">
+          @for(tag of article.tagList; track $index) {
+            <mat-chip>{{ tag }}</mat-chip>
+          }
+        </mat-chip-set>
       </div>
-    </div>
+      <div class="flex justify-between items-center mt-5">
+        <p>{{ article.body }}</p>
+      </div>
+    </mat-card-content>
+    <!--    <mat-card-actions>
 
-    <article-comments></article-comments>
-  </div>
+          &lt;!&ndash;        <button class="btn btn-sm btn-outline-secondary">
+                    <i class="ion-edit"></i> Edit Article
+                  </button>
+                  <button class="btn btn-sm btn-outline-danger">
+                    <i class="ion-trash-a"></i> Delete Article
+                  </button>&ndash;&gt;
+        </mat-card-actions>-->
+  </mat-card>
+  <article-comments
+    [slug]="article.slug"
+  >
+  </article-comments>
 </div>

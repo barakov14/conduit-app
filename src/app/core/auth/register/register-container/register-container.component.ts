@@ -2,8 +2,9 @@ import {ChangeDetectionStrategy, Component, inject} from '@angular/core'
 import {RegisterFormUiComponent} from '../register-form-ui/register-form-ui.component'
 import {Router} from '@angular/router'
 import {NewUser} from '../../../api-types/auth'
-import {Store} from '@ngrx/store'
+import {select, Store} from '@ngrx/store'
 import {authActions} from '../../data-access/+state/auth.actions'
+import {selectAuthStatus} from "../../data-access/+state/auth.selectors";
 
 @Component({
   selector: 'register-container',
@@ -16,6 +17,9 @@ import {authActions} from '../../data-access/+state/auth.actions'
 export class RegisterContainerComponent {
   private readonly router = inject(Router)
   private readonly store = inject(Store)
+
+  public readonly selectLoadingStatus = this.store.pipe(select(selectAuthStatus))
+
 
 
   onRegister(data: NewUser) {

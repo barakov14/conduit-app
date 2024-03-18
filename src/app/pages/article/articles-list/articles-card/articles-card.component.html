@@ -1,26 +1,34 @@
-<mat-card class="article-preview">
+<mat-card class="mb-2">
   <mat-card-content class="article-meta">
     <div class="author">
       <a href="/profile/eric-simons">
-        <img class="author__image" src="http://i.imgur.com/Qr71crq.jpg"/>
+        <img class="author__image" [src]="article.author.image"/>
       </a>
       <div class="author__info text">
-        <a href="/profile/eric-simons" class="author__name">Eric Simons</a>
-        <span class="date">January 20th</span>
+        <a [routerLink]="['/profile/user', article.author.username]" class="author__name">{{ article.author.username }}</a>
+        <span class="date">{{ article.createdAt | date:'dd MMMM' }}</span>
       </div>
     </div>
 
-    <button mat-icon-button color="primary" class="float-end">
+    <button
+      mat-icon-button
+      [matBadge]="article.favoritesCount"
+      color="primary"
+      class="float-end"
+      [disabled]="loadingStatus === 'loading'"
+      (click)="onFavoriteArticle(article.slug)"
+    >
       <mat-icon>favorite</mat-icon>
     </button>
 
-    <a href="/article/how-to-build-webapps-that-scale" class="preview-link">
-      <h1>How to build webapps that scale</h1>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis commodi cumque delectus ducimus ipsum, natus qui quia. Dolorem, eligendi, quasi.</p>
+    <a [routerLink]="['/article', article.slug]" class="preview-link">
+      <h1>{{ article.title }}</h1>
+      <p>{{ article.description }}</p>
       <button mat-button>Read more...</button>
       <mat-chip-set class="float-end">
-        <mat-chip>Orange</mat-chip>
-        <mat-chip>Apple</mat-chip>
+        @for(tag of article.tagList; track tag) {
+          <mat-chip>{{ tag }}</mat-chip>
+        }
       </mat-chip-set>
     </a>
   </mat-card-content>

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core'
+import {ChangeDetectionStrategy, Component, EventEmitter, Output} from '@angular/core'
 import {ArticleCreateUiComponent} from '../article-create-ui/article-create-ui.component'
 import {CreateArticle} from '../../../../core/api-types/article'
 
@@ -11,7 +11,14 @@ import {CreateArticle} from '../../../../core/api-types/article'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArticleCreateContainerComponent {
+
+  @Output() errorOccurred = new EventEmitter<string>();
+
   onCreateArticle(data: CreateArticle) {
     console.log(data)
+  }
+
+  handleSnackBar() {
+
   }
 }

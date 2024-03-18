@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core'
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core'
 import {MatIcon} from '@angular/material/icon'
 import {MatIconButton} from '@angular/material/button'
 import {NgClass} from '@angular/common'
@@ -14,6 +14,8 @@ import {NgClass} from '@angular/common'
 export class AvatarEditComponent {
   isPhotoHovered = false
   private avatarUrl!: string
+
+  @Input() image!: string
   clickPhoto() {
     this.isPhotoHovered = !this.isPhotoHovered
   }

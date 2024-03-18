@@ -1,12 +1,12 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
+  EventEmitter, Input, OnInit,
   Output,
 } from '@angular/core'
 import {
   FormBuilder,
-  FormControl,
+  FormControl, FormGroup,
   FormsModule,
   ReactiveFormsModule,
   Validators,
@@ -18,7 +18,8 @@ import {MatIcon} from '@angular/material/icon'
 import {MatInput} from '@angular/material/input'
 import {NgClass} from '@angular/common'
 import {AvatarEditComponent} from '../../../../shared/ui/avatar-edit/avatar-edit.component'
-import {UpdateUser} from '../../../../core/api-types/user'
+import {GetCurrentUser, UpdateUser} from '../../../../core/api-types/user'
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'profile-edit-ui',
@@ -41,17 +42,22 @@ import {UpdateUser} from '../../../../core/api-types/user'
   styleUrl: './profile-edit-ui.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProfileEditUiComponent {
+export class ProfileEditUiComponent implements OnInit {
+  @Input() currentUser!: GetCurrentUser | null | undefined
   @Output() updateCurrentUser = new EventEmitter<UpdateUser>()
 
-  public formGroup = new FormBuilder().group({
-    link: new FormControl('' /*[Validators.required]*/),
-    username: new FormControl('', [Validators.required]),
-    bio: new FormControl(''),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required]),
-  })
+  public formGroup!: FormGroup
 
+
+  ngOnInit() {
+    this.formGroup = new FormBuilder().group({
+      link: new FormControl(this.currentUser?.user.image, [Validators.required]),
+      username: new FormControl(this.currentUser?.user.username, [Validators.required]),
+      bio: new FormControl(this.currentUser?.user.bio),
+      email: new FormControl(this.currentUser?.user.email, [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required]),
+    })
+  }
   onUpdate() {
     console.log(this.formGroup.getRawValue())
     if (this.formGroup.valid) {

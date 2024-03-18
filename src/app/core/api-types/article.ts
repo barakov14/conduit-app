@@ -5,6 +5,10 @@ export interface ArticlesList {
   articlesCount: number
 }
 
+export interface GetArticle {
+  article: Article
+}
+
 export interface Article {
   slug: string
   title: string

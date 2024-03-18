@@ -28,7 +28,7 @@ export class AuthEffects {
         ofType(authActions.register),
         exhaustMap(
           ({ data }) =>
-            authService.login(data).pipe(
+            authService.register(data).pipe(
               map((currentUser) => authActions.authSuccess({ currentUser })),
               catchError((error) => of(authActions.authFailure({error})))
             )
@@ -41,10 +41,10 @@ export class AuthEffects {
       actions$.pipe(
         ofType(authActions.authSuccess),
         tap((action) => {
-           cookieJwtService.setItem(action.currentUser.user.token)
-          router.navigateByUrl('/')
+          cookieJwtService.setItem(action.currentUser.user.token)
+          router.navigateByUrl('/articles')
         })
-      ), {functional: true}
+      ), {dispatch: false}
   )
 
   getUserEffect$ = createEffect(
@@ -54,10 +54,20 @@ export class AuthEffects {
         switchMap(
           () =>
             authService.getCurrentUser().pipe(
-              map((currentUser) => authActions.getCurrentUser({ currentUser })),
-              catchError((error) => of(authActions.authFailure({error})))
+              map((currentUser) => authActions.getCurrentUserSuccess({ currentUser })),
+              catchError(() => of(authActions.getCurrentUserFailure()))
             )
         )
-      ), {functional: true}
+      ), {functional: true, dispatch: true}
+  )
+
+  logoutEffect$ = createEffect(
+    (cookieJwtService = inject(CookieJwtService), actions$ = inject(Actions)) =>
+      actions$.pipe(
+        ofType(authActions.logout),
+        tap(() => {
+          cookieJwtService.removeItem()
+        })
+      ), { functional: true, dispatch: false }
   )
 }

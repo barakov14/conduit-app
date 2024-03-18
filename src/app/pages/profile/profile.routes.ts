@@ -3,14 +3,7 @@ import {authGuard} from '../../core/auth/data-access/services/auth.guard'
 
 export const ProfileRoutes: Routes = [
   {
-    path: '',
-    canActivate: [authGuard],
-    loadComponent: () =>
-      import('./profile/profile-view-container/profile-view-container.component')
-        .then((c) => c.ProfileViewContainerComponent)
-  },
-  {
-    path: ':username',
+    path: 'user/:username',
     loadComponent: () =>
       import('./profile/profile-view-container/profile-view-container.component')
         .then((c) => c.ProfileViewContainerComponent)

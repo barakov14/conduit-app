@@ -1,48 +1,47 @@
-<div class="row">
-  <div class="col-xs-12 col-md-8 offset-md-2">
+<div class="flex justify-center mt-10 flex-col px-4 lg:px-40">
+  <ng-container *ngIf="articleComments">
     <form class="card comment-form">
-      <div class="card-block">
-        <textarea class="form-control" placeholder="Write a comment..." rows="3"></textarea>
-      </div>
-      <div class="card-footer">
-        <img src="http://i.imgur.com/Qr71crq.jpg" class="comment-author-img" />
-        <button class="btn btn-sm btn-primary">Post Comment</button>
-      </div>
+      <mat-form-field class="w-full">
+        <mat-label>Leave a comment</mat-label>
+        <textarea matInput placeholder="Ex. It makes me feel..."></textarea>
+        <button matSuffix mat-icon-button color="primary">
+            <mat-icon>send</mat-icon>
+        </button>
+      </mat-form-field>
     </form>
 
-    <div class="card">
-      <div class="card-block">
-        <p class="card-text">
-          With supporting text below as a natural lead-in to additional content.
-        </p>
-      </div>
-      <div class="card-footer">
-        <a href="/profile/author" class="comment-author">
-          <img src="http://i.imgur.com/Qr71crq.jpg" class="comment-author-img" />
-        </a>
-        &nbsp;
-        <a href="/profile/jacob-schmidt" class="comment-author">Jacob Schmidt</a>
-        <span class="date-posted">Dec 29th</span>
-      </div>
-    </div>
+    <div class="flex flex-col">
+      @if(articleComments.comments.length > 0 && articleComments.comments; as comments) {
+        @for(comment of comments; track $index) {
+          <mat-card class="mt-2 p-2">
+            <mat-card-content class="card-block">
+              <p class="card-text">
+                {{ comment.body }}
+              </p>
+            </mat-card-content>
+            <mat-card-footer class="flex items-center mt-4">
+              <a [routerLink]="['/profile/user', comment.author.username]" class="comment-author">
+                <img [src]="comment.author.image" class="avatar" />
+              </a>
+              <div class="flex flex-col">
+                <a [routerLink]="['/profile/user', comment.author.username]" class="author__name">{{ comment.author.username }}</a>
+                <span class="date">{{ comment.createdAt | date:'dd MMMM yyyy' }}</span>
+              </div>
+            </mat-card-footer>
+            <mat-card-actions [ngClass]="{'author-not-current-user': currentUser.user.username !== comment.author.username}" class="flex justify-end">
+              <button mat-icon-button color="warn">
+                <mat-icon>delete</mat-icon>
+              </button>
+              <button mat-icon-button color="accent">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        }
 
-    <div class="card">
-      <div class="card-block">
-        <p class="card-text">
-          With supporting text below as a natural lead-in to additional content.
-        </p>
-      </div>
-      <div class="card-footer">
-        <a href="/profile/author" class="comment-author">
-          <img src="http://i.imgur.com/Qr71crq.jpg" class="comment-author-img" />
-        </a>
-        &nbsp;
-        <a href="/profile/jacob-schmidt" class="comment-author">Jacob Schmidt</a>
-        <span class="date-posted">Dec 29th</span>
-        <span class="mod-options">
-              <i class="ion-trash-a"></i>
-            </span>
-      </div>
+      } @else {
+        <p>No comments here...</p>
+      }
     </div>
-  </div>
+  </ng-container>
 </div>
