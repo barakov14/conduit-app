@@ -5,14 +5,16 @@ export const ProfileRoutes: Routes = [
   {
     path: 'user/:username',
     loadComponent: () =>
-      import('./profile/profile-view-container/profile-view-container.component')
-        .then((c) => c.ProfileViewContainerComponent)
+      import(
+        './profile/profile-view-container/profile-view-container.component'
+      ).then((c) => c.ProfileViewContainerComponent),
   },
   {
     path: 'edit',
     canActivate: [authGuard],
     loadComponent: () =>
-      import('./profile-edit/profile-edit-container/profile-edit-container.component')
-        .then((c) => c.ProfileEditContainerComponent)
-  }
+      import(
+        './profile-edit/profile-edit-container/profile-edit-container.component'
+      ).then((c) => c.ProfileEditContainerComponent),
+  },
 ]

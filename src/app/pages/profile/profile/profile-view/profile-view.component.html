@@ -1,23 +1,47 @@
-@if(user) {
-  <div class="container">
+@if (user && articlesList) {
+  <div class="p-6">
     <mat-card>
       <mat-card-content>
         <div class="information">
-          <img
-            class="avatar"
-            [src]="user.profile.image"
-            alt=""
-          />
+          <img class="avatar" [src]="user.profile.image" alt="" />
           <h2 class="information__username">{{ user.profile.username }}</h2>
           @if (user.profile.bio; as bio) {
-            <p class="information__text" >
+            <p class="information__text">
               {{ bio }}
             </p>
           }
         </div>
       </mat-card-content>
-      @if(currentUser) {
-        <mat-card-actions style="position: relative" [ngClass]="{'notCurrentUser': user.profile.username !== currentUser.user.username }">
+      @if (currentUser && user.profile.username !== currentUser.user.username) {
+        <mat-card-actions>
+          @if (!user.profile.following) {
+            <button
+              mat-raised-button
+              color="primary"
+              style="position: absolute; right: 1rem"
+              (click)="onFollowUser(user.profile.username)"
+            >
+              Subscribe
+            </button>
+          } @else {
+            <button
+              mat-button
+              color="primary"
+              style="position: absolute; right: 1rem"
+              (click)="onUnfollowUser(user.profile.username)"
+            >
+              Unsubscribe
+            </button>
+          }
+        </mat-card-actions>
+      }
+      @if (currentUser) {
+        <mat-card-actions
+          style="position: relative"
+          [ngClass]="{
+            notCurrentUser: user.profile.username !== currentUser.user.username
+          }"
+        >
           <button
             mat-button
             color="primary"
@@ -33,9 +57,42 @@
   </div>
 
   <div class="mt-2">
-    <mat-tab-group animationDuration="200ms">
-      <mat-tab label="My Artciles"> My Artciles </mat-tab>
-      <mat-tab label="Favorited Articles"> Favorited Articles </mat-tab>
-    </mat-tab-group>
+    <nav mat-tab-nav-bar [tabPanel]="tabPanel">
+      <a
+        mat-tab-link
+        (click)="onFeedChoose('feed')"
+        [active]="active === 'feed'"
+        [disabled]="active === 'feed'"
+      >
+        Your Articles
+      </a>
+      <a
+        mat-tab-link
+        (click)="onFeedChoose('favorites')"
+        [active]="active == 'favorites'"
+        [disabled]="active === 'favorites'"
+      >
+        Favorites Articles
+      </a>
+    </nav>
+    @if (articleLoadingStatus === 'loading') {
+      <div class="flex justify-center items-center mt-20 mb-20">
+        <mat-spinner></mat-spinner>
+      </div>
+    }
+    @if (articleLoadingStatus === 'loaded') {
+      <div class="mt-2 mb-2 p-5">
+        <articles-list
+          [articlesList]="articlesList"
+          [loadingStatus]="articleLoadingStatus"
+        ></articles-list>
+      </div>
+    }
+    <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
+    <pagination
+      [totalPages]="Math.ceil(articlesList.articlesCount / 10)"
+      [currentPage]="currentPage"
+      (currentPageChanged)="onFeedPageChoose($event)"
+    ></pagination>
   </div>
 }

@@ -1,23 +1,37 @@
 <div class="mb-10">
-  <ng-container *ngrxLet="{
-  articlesList: articlesList$,
-  loadingStatus: loadingStatus$
-} as vm">
-    @if(vm.loadingStatus === 'loading') {
+  <ng-container
+    *ngrxLet="{
+      articlesList: articlesList$,
+      loadingStatus: loadingStatus$,
+      tagList: tagList$
+    } as vm"
+  >
+    @if (vm.loadingStatus === 'loading') {
       <mat-progress-bar mode="indeterminate"></mat-progress-bar>
     }
-    @if(vm.articlesList && vm.loadingStatus !== 'loading') {
-      <articles-list
-        [articlesList]="vm.articlesList"
-        (favorite)="onFavoriteArticle($event)"
-        [loadingStatus]="vm.loadingStatus"
-      >
-      </articles-list>
-      <pagination
-        [totalPages]="Math.ceil(vm.articlesList.articlesCount / 10)"
-        [currentPage]="currentPage"
-        (currentPageChanged)="onCurrentPageChanged($event)"
-      ></pagination>
+    @if (vm.tagList) {
+      <div class="mb-2">
+        <feed-tabs
+          [tagList]="vm.tagList"
+          (feedChoose)="onFeedChoose($event)"
+        ></feed-tabs>
+      </div>
+    }
+    @if (vm.articlesList && vm.loadingStatus === 'loaded') {
+      <div class="p-6">
+        <articles-list
+          [articlesList]="vm.articlesList"
+          (favorite)="onFavoriteArticle($event)"
+          (unFavorite)="onUnFavoriteArticle($event)"
+          [loadingStatus]="vm.loadingStatus"
+        >
+        </articles-list>
+        <pagination
+          [totalPages]="Math.ceil(vm.articlesList.articlesCount / 10)"
+          [currentPage]="currentPage"
+          (currentPageChanged)="onCurrentPageChanged($event)"
+        ></pagination>
+      </div>
     }
   </ng-container>
 </div>

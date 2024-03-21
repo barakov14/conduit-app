@@ -1,11 +1,11 @@
-
-<feed-tabs>
-    @for(article of articlesList.articles; track $index) {
-      <articles-card
-        [article]="article"
-        (favorite)="onFavoriteArticle($event)"
-        [loadingStatus]="loadingStatus"
-      ></articles-card>
-    }
-</feed-tabs>
-
+@for (article of articlesList.articles; track $index) {
+  <articles-card
+    [article]="article"
+    (favorite)="onFavoriteArticle($event)"
+    (unFavorite)="onUnFavoriteArticle($event)"
+    [loadingStatus]="loadingStatus"
+  ></articles-card>
+}
+@if (articlesList.articlesCount === 0) {
+  <p>No articles here...</p>
+}

@@ -2,16 +2,25 @@
   *ngrxLet="{
     user: user$,
     loadingStatus: loadingStatus$,
-    currentUser: currentUser$
-  } as vm">
-    @if(vm.loadingStatus === 'loading') {
-      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-    } @else {
-      <profile-view
-        [user]="vm.user"
-        [currentUser]="vm.currentUser"
-        [loadingStatus]="vm.loadingStatus"
-      ></profile-view>
-    }
+    currentUser: currentUser$,
+    articlesList: articlesList$,
+    articleLoadingStatus: articleLoadingStatus$
+  } as vm"
+>
+  @if (vm.loadingStatus === 'loading') {
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  }
+  @if (vm.user && vm.loadingStatus === 'loaded') {
+    <profile-view
+      [user]="vm.user"
+      [currentUser]="vm.currentUser"
+      [loadingStatus]="vm.loadingStatus"
+      [articlesList]="vm.articlesList"
+      [articleLoadingStatus]="vm.articleLoadingStatus"
+      (followUser)="onFollowUser($event)"
+      (unfollowUser)="onUnfollowUser($event)"
+      (feedChoose)="onFeedChoose($event)"
+      (pageChoose)="onFeedPageChoose($event)"
+    ></profile-view>
+  }
 </ng-container>
-

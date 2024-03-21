@@ -1,10 +1,13 @@
-<div class="flex flex-wrap">
-  @for(page of pages; track $index) {
+<div class="pagination">
+  @for (page of pages; track $index) {
     <button
       (click)="onPage(page)"
       [disabled]="currentPage === page"
-      [ngClass]="{'text-green-500': page === currentPage}"
-      class="mr-2 text-xl hover:opacity-70 transition-opacity"
+      [ngClass]="{
+        'pagination-button': true,
+        active: page === currentPage,
+        disabled: currentPage === page
+      }"
     >
       {{ page }}
     </button>

@@ -24,7 +24,6 @@ export interface Article {
 
 export interface UpdateArticle {
   article: UpdateArticleRequest
-  slug: string
 }
 
 export interface UpdateArticleRequest {
@@ -63,8 +62,14 @@ export interface PublishCommentToArticle {
   slug: string
 }
 
+export interface PublishCommentResponse {
+  comment: Comment
+}
+
 export interface PublishCommentBody {
-  body: string
+  comment: {
+    body: string
+  }
 }
 
 export interface DeleteCommentFromArticle {

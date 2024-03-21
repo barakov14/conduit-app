@@ -1,10 +1,8 @@
 import {createFeature, createReducer, on} from '@ngrx/store'
-import {articleInitialState} from '../article.model'
-import {articleActions} from "./article.actions";
-
+import {articleInitialState} from './models/article.model'
+import {articleActions} from './article.actions'
 
 export const articleFeatureKey = 'article'
-
 
 export const articleFeature = createFeature({
   name: 'article',
@@ -17,54 +15,56 @@ export const articleFeature = createFeature({
     on(articleActions.loadArticlesSuccess, (state, action) => ({
       ...state,
       loadingStatus: 'loaded' as const,
-      articlesList: action.articlesList
+      articlesList: action.articlesList,
     })),
     on(articleActions.loadArticlesFailure, (state) => ({
       ...state,
-      loadingStatus: 'error' as const
+      loadingStatus: 'error' as const,
     })),
 
     on(articleActions.loadArticle, (state) => ({
       ...state,
-      loadingStatus: 'loading' as const
+      loadingStatus: 'loading' as const,
     })),
     on(articleActions.loadArticleSuccess, (state, action) => ({
       ...state,
       loadingStatus: 'loaded' as const,
-      article: action.article
+      article: action.article,
     })),
     on(articleActions.loadArticleFailure, (state) => ({
       ...state,
-      loadingStatus: 'error' as const
+      loadingStatus: 'error' as const,
     })),
 
-    on(articleActions.loadArticleComments, (state) => ({
+    on(articleActions.createArticle, (state) => ({
       ...state,
-      loadingStatus: 'loading' as const
+      loadingStatus: 'loading' as const,
     })),
-    on(articleActions.loadArticleCommentsSuccess, (state, action) => ({
-      ...state,
-      loadingStatus: 'loaded' as const,
-      articleComments: action.articleComments
-    })),
-    on(articleActions.loadArticleCommentsFailure, (state) => ({
-      ...state,
-      loadingStatus: 'error' as const
-    })),
-
-    on(articleActions.favoriteArticle, (state) => ({
-      ...state,
-      loadingStatus: 'loading' as const
-    })),
-    on(articleActions.favoriteArticleSuccess, (state, action) => ({
+    on(articleActions.createArticleSuccess, (state) => ({
       ...state,
       loadingStatus: 'loaded' as const,
-      article: action.article
     })),
-    on(articleActions.favoriteArticleFailure, (state) => ({
+    on(articleActions.createArticleFailure, (state) => ({
       ...state,
       loadingStatus: 'error' as const,
     })),
-  ),
-});
 
+    on(articleActions.updateArticle, (state) => ({
+      ...state,
+      loadingStatus: 'loading' as const,
+    })),
+    on(articleActions.updateArticleSuccess, (state) => ({
+      ...state,
+      loadingStatus: 'loaded' as const,
+    })),
+    on(articleActions.updateArticleFailure, (state) => ({
+      ...state,
+      loadingStatus: 'error' as const,
+    })),
+
+    on(articleActions.loadTagsSuccess, (state, action) => ({
+      ...state,
+      tagList: action.tagList,
+    })),
+  ),
+})

@@ -1,13 +1,24 @@
-<ng-container *ngrxLet="{
-  getArticle: article$,
-  loadingStatus: loadingStatus$
-} as vm">
-  @if (vm.loadingStatus === 'loaded' && vm.getArticle) {
-    <article-read
-      [article]="vm.getArticle.article"
-    ></article-read>
+<ng-container
+  *ngrxLet="{
+    getArticle: article$,
+    loadingStatus: loadingStatus$,
+    currentUser: currentUser$
+  } as vm"
+>
+  @if (vm.loadingStatus === 'loaded' && vm.getArticle && vm.currentUser) {
+    <div class="p-6">
+      <article-read
+        [article]="vm.getArticle.article"
+        [currentUser]="vm.currentUser"
+        (deleteArticle)="onDeleteArticle($event)"
+        (followUser)="onFollowUser($event)"
+        (unfollowUser)="onUnfollowUser($event)"
+        (favoriteArticle)="onFavoriteArticle($event)"
+        (unfavoriteArticle)="onUnFavoriteArticle($event)"
+      ></article-read>
+    </div>
   }
-  @if(vm.loadingStatus === 'loading') {
+  @if (vm.loadingStatus === 'loading') {
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   }
 </ng-container>

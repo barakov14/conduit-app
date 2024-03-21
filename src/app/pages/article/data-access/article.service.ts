@@ -5,9 +5,12 @@ import {
   ArticleComments,
   ArticlesList,
   CreateArticle,
-  DeleteCommentFromArticle, GetArticle,
+  DeleteCommentFromArticle,
+  GetArticle,
   PublishCommentBody,
+  PublishCommentResponse,
   PublishCommentToArticle,
+  TagList,
   Tags,
   UpdateArticle,
   UpdateArticleRequest,
@@ -18,26 +21,29 @@ import {Observable} from 'rxjs'
 export class ArticleService {
   private readonly apiService = inject(ApiService)
 
-  public loadTags(): Observable<Tags[]> {
-    return this.apiService.get<Tags[]>('/tags')
+  public loadTags(): Observable<TagList> {
+    return this.apiService.get<TagList>('/tags')
   }
 
   public loadArticles(feed: string): Observable<ArticlesList> {
     return this.apiService.get<ArticlesList>(`/articles${feed}`)
   }
 
-  public createArticle(data: CreateArticle): Observable<ArticlesList> {
-    return this.apiService.post<ArticlesList, CreateArticle>('/articles', data)
+  public createArticle(data: CreateArticle): Observable<GetArticle> {
+    return this.apiService.post<GetArticle, CreateArticle>('/articles', data)
   }
 
   public loadArticle(slug: string): Observable<GetArticle> {
     return this.apiService.get<GetArticle>(`/articles/${slug}`)
   }
 
-  public updateArticle(req: UpdateArticle): Observable<Article> {
-    return this.apiService.put<Article, UpdateArticleRequest>(
-      `/articles/${req.slug}`,
-      req.article,
+  public updateArticle(
+    slug: string,
+    data: UpdateArticle,
+  ): Observable<GetArticle> {
+    return this.apiService.put<GetArticle, UpdateArticle>(
+      `/articles/${slug}`,
+      data,
     )
   }
 
@@ -45,12 +51,12 @@ export class ArticleService {
     return this.apiService.delete<void>(`/articles/${slug}`)
   }
 
-  public favoriteArticle(slug: string): Observable<Article> {
-    return this.apiService.post<Article, void>(`/articles/${slug}/favorite`)
+  public favoriteArticle(slug: string): Observable<GetArticle> {
+    return this.apiService.post<GetArticle, void>(`/articles/${slug}/favorite`)
   }
 
-  public unFavoriteArticle(slug: string): Observable<Article> {
-    return this.apiService.delete<Article>(`/articles/${slug}/favorite`)
+  public unFavoriteArticle(slug: string): Observable<GetArticle> {
+    return this.apiService.delete<GetArticle>(`/articles/${slug}/favorite`)
   }
 
   public getArticleComments(slug: string): Observable<ArticleComments> {
@@ -58,15 +64,13 @@ export class ArticleService {
   }
 
   public publishCommentToArticle(req: PublishCommentToArticle) {
-    return this.apiService.post<Comment, PublishCommentBody>(
+    return this.apiService.post<PublishCommentResponse, PublishCommentBody>(
       `/articles/${req.slug}/comments`,
       req.comment,
     )
   }
 
-  public deleteCommentFromArticle(req: DeleteCommentFromArticle) {
-    return this.apiService.delete<void>(
-      `/articles/${req.slug}/comments/${req.id}`,
-    )
+  public deleteCommentFromArticle(id: number, slug: string) {
+    return this.apiService.delete<void>(`/articles/${slug}/comments/${id}`)
   }
 }

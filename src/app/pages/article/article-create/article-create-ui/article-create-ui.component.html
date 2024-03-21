@@ -16,7 +16,13 @@
           <textarea matInput formControlName="body"></textarea>
         </mat-form-field>
         <input-tags (tagsChanged)="onTagsChange($event)"> </input-tags>
-        <button mat-raised-button color="primary">Publish article</button>
+        <button
+          mat-raised-button
+          [disabled]="(loadingStatus$ | async) === 'loading'"
+          color="primary"
+        >
+          Publish article
+        </button>
       </form>
     </mat-card-content>
   </mat-card>

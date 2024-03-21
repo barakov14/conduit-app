@@ -6,7 +6,6 @@
 
 .content-container {
   flex-grow: 1; /* Расширяется, чтобы занять все доступное пространство между header и footer */
-  padding: 1.5rem;
   position: relative;
   z-index: -1;
 }

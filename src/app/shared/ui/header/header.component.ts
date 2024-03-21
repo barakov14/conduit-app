@@ -1,8 +1,10 @@
 import {
   ChangeDetectionStrategy,
-  Component, inject,
-  input,
-  output,
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  Output,
 } from '@angular/core'
 import {MatToolbar} from '@angular/material/toolbar'
 import {MatButton, MatIconButton} from '@angular/material/button'
@@ -12,9 +14,12 @@ import {AsyncPipe, NgClass, NgIf, NgOptimizedImage} from '@angular/common'
 import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu'
 import {MatLabel} from '@angular/material/form-field'
 import {ArticleCreateButtonComponent} from '../../../pages/article/article-create/article-create-button/article-create-button.component'
-import {select, Store} from "@ngrx/store";
-import {selectCurrentUser, selectIsLoggedIn} from "../../../core/auth/data-access/+state/auth.selectors";
-import {authActions} from "../../../core/auth/data-access/+state/auth.actions";
+import {select, Store} from '@ngrx/store'
+import {
+  selectCurrentUser,
+  selectIsLoggedIn,
+} from '../../../core/auth/data-access/+state/auth.selectors'
+import {authActions} from '../../../core/auth/data-access/+state/auth.actions'
 
 @Component({
   selector: 'ui-header',
@@ -40,8 +45,8 @@ import {authActions} from "../../../core/auth/data-access/+state/auth.actions";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent {
-  switchMode = output<void>()
-  isDarkMode = input<boolean>()
+  @Output() switchMode = new EventEmitter<void>()
+  @Input() isDarkMode!: boolean
 
   private readonly store = inject(Store)
 

@@ -11,7 +11,7 @@
     </ng-template>
   </button>
   <span class="vertical-line"></span>
-  @if((currentUser | async); as currentUser) {
+  @if (currentUser | async; as currentUser) {
     <button [matMenuTriggerFor]="menu" class="avatar-button">
       <img
         class="avatar-image"
@@ -20,7 +20,10 @@
       />
     </button>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item [routerLink]="['/profile/user', currentUser.user.username]">
+      <button
+        mat-menu-item
+        [routerLink]="['/profile/user', currentUser.user.username]"
+      >
         <mat-label>Profile</mat-label>
         <mat-icon>person</mat-icon>
       </button>
@@ -34,8 +37,12 @@
       </button>
     </mat-menu>
   }
-  <button mat-raised-button [ngClass]="{'none': (isLoggedIn | async)}" color="primary" routerLink="/login">Sign In</button>
+  <button
+    mat-raised-button
+    [ngClass]="{none: (isLoggedIn | async)}"
+    color="primary"
+    routerLink="/login"
+  >
+    Sign In
+  </button>
 </mat-toolbar>
-
-
-

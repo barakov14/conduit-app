@@ -29,6 +29,9 @@ import {LiveAnnouncer} from '@angular/cdk/a11y'
 import {CreateArticle, Tags} from '../../../../core/api-types/article'
 import {InputTagsComponent} from '../../../../shared/ui/input-tags/input-tags.component'
 import {MatCard, MatCardContent} from '@angular/material/card'
+import {LoadingStatus} from '../../../../core/data-access/loading-status.type'
+import {Observable} from 'rxjs'
+import {AsyncPipe} from '@angular/common'
 
 @Component({
   selector: 'article-create-ui',
@@ -47,6 +50,7 @@ import {MatCard, MatCardContent} from '@angular/material/card'
     InputTagsComponent,
     MatCard,
     MatCardContent,
+    AsyncPipe,
   ],
   templateUrl: './article-create-ui.component.html',
   styleUrl: './article-create-ui.component.scss',
@@ -54,6 +58,7 @@ import {MatCard, MatCardContent} from '@angular/material/card'
 })
 export class ArticleCreateUiComponent {
   @Output() createArticle = new EventEmitter<CreateArticle>()
+  @Input() loadingStatus$!: Observable<LoadingStatus>
 
   public formGroup = new FormBuilder().group({
     title: new FormControl('', [Validators.required]),

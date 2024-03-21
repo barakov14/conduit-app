@@ -5,7 +5,6 @@
     </mat-card-title>
 
     <mat-card-content>
-
       <div class="container page">
         <div class="row article-content">
           <div class="col-md-12">
@@ -18,22 +17,64 @@
 
       <div class="flex justify-between">
         <div class="flex items-center">
-          <a [routerLink]="['/profile/user', article.author.username]" class="mr-2 avatar"><img class="avatar" [src]="article.author.image" /></a>
+          <a
+            [routerLink]="['/profile/user', article.author.username]"
+            class="mr-2 avatar"
+            ><img class="author__image" [src]="article.author.image"
+          /></a>
           <div class="flex flex-col mr-2">
-            <a [routerLink]="['/profile/user', article.author.username]" class="author__name">{{ article.author.username }}</a>
-            <span class="date">{{ article.createdAt | date:'dd MMMM yyyy' }}</span>
+            <a
+              [routerLink]="['/profile/user', article.author.username]"
+              class="author__name"
+              >{{ article.author.username }}</a
+            >
+            <span class="date">{{
+              article.createdAt | date: 'dd MMMM yyyy'
+            }}</span>
           </div>
           <div class="post-actions">
-            <button mat-flat-button class="ml-2 mr-2" color="primary">
-              Subscribe
-            </button>
-            <button mat-stroked-button class="favorite-button" color="primary">
-              Favorite
-            </button>
+            @if (!followed) {
+              <button
+                mat-raised-button
+                class="ml-2 mr-2"
+                color="primary"
+                (click)="onFollowUser(article.author.username)"
+              >
+                Subscribe
+              </button>
+            } @else {
+              <button
+                mat-stroked-button
+                class="ml-2 mr-2"
+                color="primary"
+                (click)="onUnfollowUser(article.author.username)"
+              >
+                Unsubscribe
+              </button>
+            }
+            @if (!favorited) {
+              <button
+                mat-raised-button
+                class="favorite-button"
+                color="accent"
+                (click)="onFavoriteArticle(article.slug)"
+              >
+                Favorite
+              </button>
+            } @else {
+              <button
+                mat-stroked-button
+                class="favorite-button"
+                color="accent"
+                (click)="onUnFavoriteArticle(article.slug)"
+              >
+                Unfavorite
+              </button>
+            }
           </div>
         </div>
         <mat-chip-set class="float-end">
-          @for(tag of article.tagList; track $index) {
+          @for (tag of article.tagList; track $index) {
             <mat-chip>{{ tag }}</mat-chip>
           }
         </mat-chip-set>
@@ -42,18 +83,25 @@
         <p>{{ article.body }}</p>
       </div>
     </mat-card-content>
-    <!--    <mat-card-actions>
-
-          &lt;!&ndash;        <button class="btn btn-sm btn-outline-secondary">
-                    <i class="ion-edit"></i> Edit Article
-                  </button>
-                  <button class="btn btn-sm btn-outline-danger">
-                    <i class="ion-trash-a"></i> Delete Article
-                  </button>&ndash;&gt;
-        </mat-card-actions>-->
+    @if (article.author.username === currentUser.user.username) {
+      <mat-card-actions>
+        <button
+          mat-raised-button
+          color="accent"
+          class="mr-2"
+          [routerLink]="['edit']"
+        >
+          Edit Article
+        </button>
+        <button
+          mat-raised-button
+          color="warn"
+          (click)="onDeleteArticle(article.slug)"
+        >
+          Delete Article
+        </button>
+      </mat-card-actions>
+    }
   </mat-card>
-  <article-comments
-    [slug]="article.slug"
-  >
-  </article-comments>
+  <article-comments [slug]="article.slug"> </article-comments>
 </div>

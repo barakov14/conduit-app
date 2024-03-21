@@ -4,7 +4,6 @@ import {authActions} from './auth.actions'
 
 export const authFeatureKey = 'auth'
 
-
 export const authFeature = createFeature({
   name: 'auth',
   reducer: createReducer(
@@ -21,13 +20,13 @@ export const authFeature = createFeature({
     on(authActions.authSuccess, (state, action) => ({
       ...state,
       loadingStatus: 'loaded' as const,
-      currentUser: action.currentUser
+      currentUser: action.currentUser,
     })),
 
     on(authActions.authFailure, (state, action) => ({
       ...state,
       loadingStatus: 'error' as const,
-      error: action.error
+      error: action.error,
     })),
 
     on(authActions.getCurrentUser, (state) => ({
@@ -38,7 +37,7 @@ export const authFeature = createFeature({
     on(authActions.getCurrentUserSuccess, (state, action) => ({
       ...state,
       loadingStatus: 'loaded' as const,
-      currentUser: action.currentUser
+      currentUser: action.currentUser,
     })),
     on(authActions.getCurrentUserFailure, (state, action) => ({
       ...state,
@@ -47,8 +46,7 @@ export const authFeature = createFeature({
 
     on(authActions.logout, (state) => ({
       ...state,
-      ...authInitialState
-    }))
+      ...authInitialState,
+    })),
   ),
-});
-
+})

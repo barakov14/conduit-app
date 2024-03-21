@@ -1,7 +1,29 @@
-<!--<mat-tab-group [selectedIndex]="1">
-  @for (tab of lotsOfTabs; track tab) {
-    <mat-tab [label]="tab">-->
-      <ng-content></ng-content>
-<!--    </mat-tab>
+<nav mat-tab-nav-bar backgroundColor="primary" [tabPanel]="tabPanel">
+  <a
+    mat-tab-link
+    (click)="onFeedChoose('feed')"
+    [active]="active === 'feed'"
+    [disabled]="active === 'feed'"
+  >
+    Your Feed
+  </a>
+  <a
+    mat-tab-link
+    (click)="onFeedChoose('')"
+    [active]="active == ''"
+    [disabled]="active === ''"
+  >
+    Global Feed
+  </a>
+  @for (tag of tagList.tags; track tag) {
+    <a
+      mat-tab-link
+      (click)="onFeedChoose(tag)"
+      [active]="active === tag"
+      [disabled]="active === tag"
+    >
+      {{ tag }}
+    </a>
   }
-</mat-tab-group>-->
+</nav>
+<mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>

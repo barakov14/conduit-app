@@ -1,5 +1,5 @@
 <div class="container">
-  @if(currentUser) {
+  @if (currentUser) {
     <mat-card class="mat-card">
       <mat-card-content>
         <form
@@ -8,15 +8,14 @@
           (ngSubmit)="onUpdate()"
         >
           <h1 class="form-title">Your settings</h1>
+          <p>At least one field is required.</p>
           <avatar-edit
-            [image]="currentUser.user.image"
+            [image]="avatarUrl ? avatarUrl : currentUser.user.image"
+            (imageSelected)="onUploadImage($event)"
           ></avatar-edit>
           <mat-form-field class="input-field">
             <mat-label>Username</mat-label>
-            <input
-              matInput
-              [formControlName]="'username'"
-            />
+            <input matInput [formControlName]="'username'" />
           </mat-form-field>
           <mat-form-field class="input-field">
             <mat-label>Short bio about you</mat-label>
@@ -28,11 +27,7 @@
           </mat-form-field>
           <mat-form-field class="input-field">
             <mat-label>Email</mat-label>
-            <input
-              matInput
-              type="text"
-              [formControlName]="'email'"
-            />
+            <input matInput type="text" [formControlName]="'email'" />
           </mat-form-field>
           <mat-form-field class="input-field">
             <mat-label>Password</mat-label>

@@ -1,18 +1,26 @@
 <div class="flex justify-center mt-10 flex-col px-4 lg:px-40">
   <ng-container *ngIf="articleComments">
-    <form class="card comment-form">
+    <form
+      class="card comment-form"
+      [formGroup]="formGroup"
+      (ngSubmit)="onCommentArticle()"
+    >
       <mat-form-field class="w-full">
         <mat-label>Leave a comment</mat-label>
-        <textarea matInput placeholder="Ex. It makes me feel..."></textarea>
+        <textarea
+          matInput
+          [formControlName]="'text'"
+          placeholder="Ex. It makes me feel..."
+        ></textarea>
         <button matSuffix mat-icon-button color="primary">
-            <mat-icon>send</mat-icon>
+          <mat-icon>send</mat-icon>
         </button>
       </mat-form-field>
     </form>
 
     <div class="flex flex-col">
-      @if(articleComments.comments.length > 0 && articleComments.comments; as comments) {
-        @for(comment of comments; track $index) {
+      @if (articleComments.length > 0 && articleComments; as comments) {
+        @for (comment of comments; track $index) {
           <mat-card class="mt-2 p-2">
             <mat-card-content class="card-block">
               <p class="card-text">
@@ -20,25 +28,40 @@
               </p>
             </mat-card-content>
             <mat-card-footer class="flex items-center mt-4">
-              <a [routerLink]="['/profile/user', comment.author.username]" class="comment-author">
+              <a
+                [routerLink]="['/profile/user', comment.author.username]"
+                class="comment-author"
+              >
                 <img [src]="comment.author.image" class="avatar" />
               </a>
               <div class="flex flex-col">
-                <a [routerLink]="['/profile/user', comment.author.username]" class="author__name">{{ comment.author.username }}</a>
-                <span class="date">{{ comment.createdAt | date:'dd MMMM yyyy' }}</span>
+                <a
+                  [routerLink]="['/profile/user', comment.author.username]"
+                  class="author__name"
+                  >{{ comment.author.username }}</a
+                >
+                <span class="date">{{
+                  comment.createdAt | date: 'dd MMMM yyyy'
+                }}</span>
               </div>
             </mat-card-footer>
-            <mat-card-actions [ngClass]="{'author-not-current-user': currentUser.user.username !== comment.author.username}" class="flex justify-end">
-              <button mat-icon-button color="warn">
+            <mat-card-actions
+              [ngClass]="{
+                'author-not-current-user':
+                  currentUser.user.username !== comment.author.username
+              }"
+              class="flex justify-end"
+            >
+              <button
+                mat-icon-button
+                color="warn"
+                (click)="onDelete(comment.id)"
+              >
                 <mat-icon>delete</mat-icon>
-              </button>
-              <button mat-icon-button color="accent">
-                <mat-icon>edit</mat-icon>
               </button>
             </mat-card-actions>
           </mat-card>
         }
-
       } @else {
         <p>No comments here...</p>
       }

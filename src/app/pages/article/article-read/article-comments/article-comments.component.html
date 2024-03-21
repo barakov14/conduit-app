@@ -1,4 +1,3 @@
-
 <ng-container
   *ngrxLet="{
     articleComments: articleComments$,
@@ -6,14 +5,16 @@
     currentUser: currentUser$
   } as vm"
 >
-  @if(vm.loadingStatus === 'loaded' && vm.currentUser) {
+  @if (vm.loadingStatus === 'loaded' && vm.currentUser) {
     <article-comment
       [articleComments]="vm.articleComments"
+      (commentArticle)="onCommentArticle($event)"
+      (deleteComment)="onDeleteComment($event)"
       [currentUser]="vm.currentUser"
     ></article-comment>
   }
-  @if(vm.loadingStatus === 'loading') {
-    <div class="flex justify-center mt-20">
+  @if (vm.loadingStatus === 'loading') {
+    <div class="flex justify-center mt-10">
       <mat-spinner></mat-spinner>
     </div>
   }

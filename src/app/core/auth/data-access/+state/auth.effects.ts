@@ -7,58 +7,64 @@ import {Router} from '@angular/router'
 import {CookieJwtService} from '../services/cookie-jwt.service'
 
 @Injectable({providedIn: 'root'})
-
 export class AuthEffects {
   loginEffect$ = createEffect(
     (authService = inject(AuthService), actions$ = inject(Actions)) =>
       actions$.pipe(
         ofType(authActions.login),
-        exhaustMap(
-          ({ data }) =>
-            authService.login(data).pipe(
-              map((currentUser) => authActions.authSuccess({ currentUser })),
-              catchError((error) => of(authActions.authFailure({error})))
-            )
-        )
-      ), {functional: true}
+        exhaustMap(({data}) =>
+          authService.login(data).pipe(
+            map((currentUser) => authActions.authSuccess({currentUser})),
+            catchError((error) => of(authActions.authFailure({error}))),
+          ),
+        ),
+      ),
+    {functional: true},
   )
   registerEffect$ = createEffect(
     (authService = inject(AuthService), actions$ = inject(Actions)) =>
       actions$.pipe(
         ofType(authActions.register),
-        exhaustMap(
-          ({ data }) =>
-            authService.register(data).pipe(
-              map((currentUser) => authActions.authSuccess({ currentUser })),
-              catchError((error) => of(authActions.authFailure({error})))
-            )
-        )
-      ), {functional: true}
+        exhaustMap(({data}) =>
+          authService.register(data).pipe(
+            map((currentUser) => authActions.authSuccess({currentUser})),
+            catchError((error) => of(authActions.authFailure({error}))),
+          ),
+        ),
+      ),
+    {functional: true},
   )
 
   authSuccessEffect$ = createEffect(
-    (router = inject(Router), actions$ = inject(Actions), cookieJwtService = inject(CookieJwtService)) =>
+    (
+      router = inject(Router),
+      actions$ = inject(Actions),
+      cookieJwtService = inject(CookieJwtService),
+    ) =>
       actions$.pipe(
         ofType(authActions.authSuccess),
         tap((action) => {
           cookieJwtService.setItem(action.currentUser.user.token)
           router.navigateByUrl('/articles')
-        })
-      ), {dispatch: false}
+        }),
+      ),
+    {dispatch: false},
   )
 
   getUserEffect$ = createEffect(
     (authService = inject(AuthService), actions$ = inject(Actions)) =>
       actions$.pipe(
         ofType(authActions.getCurrentUser),
-        switchMap(
-          () =>
-            authService.getCurrentUser().pipe(
-              map((currentUser) => authActions.getCurrentUserSuccess({ currentUser })),
-              catchError(() => of(authActions.getCurrentUserFailure()))
-            )
-        )
-      ), {functional: true, dispatch: true}
+        switchMap(() =>
+          authService.getCurrentUser().pipe(
+            map((currentUser) =>
+              authActions.getCurrentUserSuccess({currentUser}),
+            ),
+            catchError(() => of(authActions.getCurrentUserFailure())),
+          ),
+        ),
+      ),
+    {functional: true, dispatch: true},
   )
 
   logoutEffect$ = createEffect(
@@ -67,7 +73,8 @@ export class AuthEffects {
         ofType(authActions.logout),
         tap(() => {
           cookieJwtService.removeItem()
-        })
-      ), { functional: true, dispatch: false }
+        }),
+      ),
+    {functional: true, dispatch: false},
   )
 }

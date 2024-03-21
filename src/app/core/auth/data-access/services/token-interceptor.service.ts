@@ -8,6 +8,7 @@ import {catchError, Observable, throwError} from 'rxjs'
 import {inject} from '@angular/core'
 import {CookieJwtService} from './cookie-jwt.service'
 import {Router} from '@angular/router'
+import {environment} from '../../../../../environments/environment.prod'
 
 export const tokenInterceptor = (
   request: HttpRequest<any>,
@@ -20,20 +21,24 @@ export const tokenInterceptor = (
     .getItem()
     .subscribe((t) => (token = t))
 
-  if (token) {
-    request = request.clone({
-      setHeaders: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+  if (request.url.includes(environment.api_url)) {
+    if (token) {
+      request = request.clone({
+        setHeaders: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+    }
+    return next(request).pipe(
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 401) {
+          router.navigate(['/login'])
+          cookieJwtService.removeItem()
+        }
+        return throwError(() => error)
+      }),
+    )
+  } else {
+    return next(request)
   }
-  return next(request).pipe(
-    catchError((error: HttpErrorResponse) => {
-      if (error.status === 401) {
-        router.navigate(['/login'])
-        cookieJwtService.removeItem()
-      }
-      return throwError(() => error)
-    }),
-  )
 }

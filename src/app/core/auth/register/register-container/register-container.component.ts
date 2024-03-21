@@ -4,7 +4,7 @@ import {Router} from '@angular/router'
 import {NewUser} from '../../../api-types/auth'
 import {select, Store} from '@ngrx/store'
 import {authActions} from '../../data-access/+state/auth.actions'
-import {selectAuthStatus} from "../../data-access/+state/auth.selectors";
+import {selectAuthStatus} from '../../data-access/+state/auth.selectors'
 
 @Component({
   selector: 'register-container',
@@ -18,9 +18,9 @@ export class RegisterContainerComponent {
   private readonly router = inject(Router)
   private readonly store = inject(Store)
 
-  public readonly selectLoadingStatus = this.store.pipe(select(selectAuthStatus))
-
-
+  public readonly selectLoadingStatus = this.store.pipe(
+    select(selectAuthStatus),
+  )
 
   onRegister(data: NewUser) {
     this.store.dispatch(authActions.register({data}))

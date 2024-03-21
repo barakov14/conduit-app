@@ -2,7 +2,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  inject, Input,
+  inject,
+  Input,
   Output,
 } from '@angular/core'
 import {
@@ -18,9 +19,9 @@ import {MatFormField, MatLabel} from '@angular/material/form-field'
 import {MatInput} from '@angular/material/input'
 import {RouterLink} from '@angular/router'
 import {NewUser} from '../../../api-types/auth'
-import {Observable} from "rxjs";
-import {LoadingStatus} from "../../../data-access/loading-status.type";
-import {AsyncPipe} from "@angular/common";
+import {Observable} from 'rxjs'
+import {LoadingStatus} from '../../../data-access/loading-status.type'
+import {AsyncPipe} from '@angular/common'
 
 @Component({
   selector: 'register-form-ui',
@@ -46,7 +47,6 @@ export class RegisterFormUiComponent {
   @Output() register = new EventEmitter<NewUser>()
 
   @Input() loadingStatus!: Observable<LoadingStatus>
-
 
   public formGroup = new FormBuilder().group({
     username: new FormControl('', [Validators.required]),

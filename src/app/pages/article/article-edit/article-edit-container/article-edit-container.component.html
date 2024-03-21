@@ -1,0 +1,14 @@
+<ng-container
+  *ngrxLet="{
+    loadingStatus: loadingStatus$,
+    article: article$
+  } as vm"
+>
+  @if (vm.article && vm.loadingStatus === 'loaded') {
+    <article-edit-ui
+      (updateArticle)="onUpdateArticle($event)"
+      [loadingStatus]="vm.loadingStatus"
+      [getArticle]="vm.article"
+    ></article-edit-ui>
+  }
+</ng-container>

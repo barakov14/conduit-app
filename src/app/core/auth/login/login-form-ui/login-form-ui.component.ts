@@ -1,7 +1,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter, inject, Input,
+  EventEmitter,
+  inject,
+  Input,
   Output,
 } from '@angular/core'
 import {
@@ -17,11 +19,11 @@ import {MatFormField, MatLabel} from '@angular/material/form-field'
 import {MatInput} from '@angular/material/input'
 import {RouterLink} from '@angular/router'
 import {LoginUser} from '../../../api-types/auth'
-import {select, Store} from "@ngrx/store";
-import {selectAuthStatus} from "../../data-access/+state/auth.selectors";
-import {AsyncPipe} from "@angular/common";
-import {LoadingStatus} from "../../../data-access/loading-status.type";
-import {Observable} from "rxjs";
+import {select, Store} from '@ngrx/store'
+import {selectAuthStatus} from '../../data-access/+state/auth.selectors'
+import {AsyncPipe} from '@angular/common'
+import {LoadingStatus} from '../../../data-access/loading-status.type'
+import {Observable} from 'rxjs'
 
 @Component({
   selector: 'login-form-ui',
@@ -48,9 +50,11 @@ export class LoginFormUiComponent {
 
   @Input() loadingStatus!: Observable<LoadingStatus>
 
-
   public formGroup = new FormBuilder().group({
-    email: new FormControl('adikbarakov123@gmail.com', [Validators.required, Validators.email]),
+    email: new FormControl('adikbarakov123@gmail.com', [
+      Validators.required,
+      Validators.email,
+    ]),
     password: new FormControl('123456', [Validators.required]),
   })
 

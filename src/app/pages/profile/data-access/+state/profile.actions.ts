@@ -1,17 +1,29 @@
-import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import {UserProfile} from "../../../../core/api-types/profile";
+import {createActionGroup, emptyProps, props} from '@ngrx/store'
+import {UserProfile} from '../../../../core/api-types/profile'
+import {UpdateUser} from '../../../../core/api-types/user'
+import {ImageResponse} from '../../../../core/api-types/image'
 
 export const profileActions = createActionGroup({
   source: 'Profile',
   events: {
-    // changeProfileDataSuccess: props<{ res: ChangeProfileDataResponse }>(),
+    loadUserProfile: props<{username: string}>(),
+    loadUserProfileSuccess: props<{profile: UserProfile}>(),
+    loadUserProfileFailure: emptyProps(),
 
-    loadUserProfile: props<{ username: string }>(),
+    updateCurrentUserProfile: props<{data: UpdateUser}>(),
+    updateCurrentUserProfileSuccess: emptyProps(),
+    updateCurrentUserProfileFailure: emptyProps(),
 
-    loadUserProfileSuccess: props<{ profile: UserProfile}>(),
+    uploadAvatar: props<{file: File}>(),
+    uploadAvatarSuccess: props<{res: ImageResponse}>(),
+    uploadAvatarFailure: emptyProps(),
 
-    loadUserProfileFailure: emptyProps()
-  }
-});
+    followUser: props<{username: string}>(),
+    followUserSuccess: props<{profile: UserProfile}>(),
+    followUserFailure: emptyProps(),
 
-
+    unfollowUser: props<{username: string}>(),
+    unfollowUserSuccess: props<{profile: UserProfile}>(),
+    unfollowUserFailure: emptyProps(),
+  },
+})

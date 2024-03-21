@@ -42,10 +42,18 @@ export class ApiService {
     })
   }
 
-  public store<T, D>(url: string, data: D): Observable<T> {
-    return this.http.put<T>(`${this.storageUrl}${url}`, JSON.stringify(data), {
-      headers: this.headers,
-    })
+  public uploadImage<T, D>(file: File): Observable<T> {
+    const formData = new FormData()
+    formData.append('image', file)
+
+    const options = {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer public_FW25by7DQLRjYXxwbUQNU7g8QWbX',
+      }),
+    }
+
+    // Загрузка файла на сервер
+    return this.http.post<T>(`${this.storageUrl}`, formData, options)
   }
 
   private get headers(): HttpHeaders {

@@ -2,7 +2,6 @@
   <img
     class="avatar"
     [src]="image"
-    alt=""
     [ngClass]="{
       'avatar-dark': isPhotoHovered
     }"
@@ -16,6 +15,7 @@
       'edit-button-invisible': !isPhotoHovered
     }"
     (click)="fileInput.click()"
+    type="button"
   >
     <mat-icon>edit</mat-icon>
   </button>

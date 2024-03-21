@@ -1,4 +1,15 @@
-<profile-edit-ui
-  (updateCurrentUser)="onUpdateCurrentUser($event)"
-  [currentUser]="currentUser | async"
-></profile-edit-ui>
+<ng-container
+  *ngrxLet="{
+    currentUser: currentUser$,
+    avatarUrl: avatarUrl$
+  } as vm"
+>
+  @if (vm.currentUser) {
+    <profile-edit-ui
+      (updateCurrentUser)="onUpdateCurrentUser($event)"
+      [currentUser]="vm.currentUser"
+      (uploadImage)="onUploadImage($event)"
+      [avatarUrl]="vm.avatarUrl"
+    ></profile-edit-ui>
+  }
+</ng-container>

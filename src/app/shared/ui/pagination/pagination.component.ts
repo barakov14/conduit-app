@@ -1,7 +1,14 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {MatButton, MatMiniFabButton} from "@angular/material/button";
-import {NgClass, NgForOf, NgIf} from "@angular/common";
-import {RouterLinkActive} from "@angular/router";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core'
+import {MatButton, MatMiniFabButton} from '@angular/material/button'
+import {NgClass, NgForOf, NgIf} from '@angular/common'
+import {RouterLinkActive} from '@angular/router'
 
 @Component({
   selector: 'pagination',
@@ -12,11 +19,11 @@ import {RouterLinkActive} from "@angular/router";
     NgIf,
     NgForOf,
     RouterLinkActive,
-    NgClass
+    NgClass,
   ],
   templateUrl: './pagination.component.html',
   styleUrl: './pagination.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PaginationComponent implements OnInit {
   @Input() currentPage!: number
@@ -24,12 +31,13 @@ export class PaginationComponent implements OnInit {
 
   public pages!: number[]
 
-  @Output() currentPageChanged = new EventEmitter<number>();
+  @Output() currentPageChanged = new EventEmitter<number>()
   ngOnInit() {
-    this.pages = Array.from({ length: this.totalPages }, (_, index) => index + 1);
+    this.pages = Array.from({length: this.totalPages}, (_, index) => index + 1)
   }
 
   onPage(page: number) {
     this.currentPageChanged.emit(page)
+    console.log('current', page)
   }
 }

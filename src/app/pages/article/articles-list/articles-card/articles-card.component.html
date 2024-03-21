@@ -2,31 +2,46 @@
   <mat-card-content class="article-meta">
     <div class="author">
       <a href="/profile/eric-simons">
-        <img class="author__image" [src]="article.author.image"/>
+        <img class="author__image" [src]="article.author.image" />
       </a>
       <div class="author__info text">
-        <a [routerLink]="['/profile/user', article.author.username]" class="author__name">{{ article.author.username }}</a>
-        <span class="date">{{ article.createdAt | date:'dd MMMM' }}</span>
+        <a
+          [routerLink]="['/profile/user', article.author.username]"
+          class="author__name"
+          >{{ article.author.username }}</a
+        >
+        <span class="date">{{ article.createdAt | date: 'dd MMMM' }}</span>
       </div>
     </div>
 
-    <button
-      mat-icon-button
-      [matBadge]="article.favoritesCount"
-      color="primary"
-      class="float-end"
-      [disabled]="loadingStatus === 'loading'"
-      (click)="onFavoriteArticle(article.slug)"
-    >
-      <mat-icon>favorite</mat-icon>
-    </button>
+    @if (!isFavorited) {
+      <button
+        mat-icon-button
+        [matBadge]="favoritesCount"
+        color="primary"
+        class="float-end"
+        (click)="onFavoriteArticle(article.slug)"
+      >
+        <mat-icon>favorite_border</mat-icon>
+      </button>
+    } @else {
+      <button
+        mat-icon-button
+        [matBadge]="favoritesCount"
+        color="primary"
+        class="float-end"
+        (click)="onUnFavoriteArticle(article.slug)"
+      >
+        <mat-icon>favorite</mat-icon>
+      </button>
+    }
 
     <a [routerLink]="['/article', article.slug]" class="preview-link">
       <h1>{{ article.title }}</h1>
       <p>{{ article.description }}</p>
       <button mat-button>Read more...</button>
       <mat-chip-set class="float-end">
-        @for(tag of article.tagList; track tag) {
+        @for (tag of article.tagList; track tag) {
           <mat-chip>{{ tag }}</mat-chip>
         }
       </mat-chip-set>
