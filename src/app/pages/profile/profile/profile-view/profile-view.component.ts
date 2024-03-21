@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  Input,
+  Input, OnInit,
   Output,
 } from '@angular/core'
 import {MatButton} from '@angular/material/button'
@@ -52,7 +52,7 @@ import {MatProgressSpinner} from '@angular/material/progress-spinner'
   styleUrl: './profile-view.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProfileViewComponent {
+export class ProfileViewComponent implements OnInit {
   @Input() user!: UserProfile | null | undefined
   @Input() currentUser!: GetCurrentUser | null | undefined
   @Input() loadingStatus!: LoadingStatus
@@ -70,6 +70,12 @@ export class ProfileViewComponent {
 
   public currentPage!: number
 
+  public followed!: boolean
+
+  ngOnInit() {
+    this.followed = this.user?.profile.following as boolean
+  }
+
   onFeedChoose(feed: string) {
     this.feedChoose.emit(feed)
     this.active = feed
@@ -82,9 +88,11 @@ export class ProfileViewComponent {
 
   onFollowUser(username: string) {
     this.followUser.emit(username)
+    this.followed = true
   }
   onUnfollowUser(username: string) {
     this.unfollowUser.emit(username)
+    this.followed = false
   }
 
   protected readonly Math = Math

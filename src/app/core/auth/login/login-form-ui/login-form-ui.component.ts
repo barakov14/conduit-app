@@ -51,11 +51,11 @@ export class LoginFormUiComponent {
   @Input() loadingStatus!: Observable<LoadingStatus>
 
   public formGroup = new FormBuilder().group({
-    email: new FormControl('adikbarakov123@gmail.com', [
+    email: new FormControl('', [
       Validators.required,
       Validators.email,
-    ]),
-    password: new FormControl('123456', [Validators.required]),
+    ]), //adikbarakov123@gmail.com
+    password: new FormControl('', [Validators.required]),
   })
 
   onLogin() {
