@@ -33,43 +33,45 @@
             }}</span>
           </div>
           <div class="post-actions">
-            @if (!followed) {
-              <button
-                mat-raised-button
-                class="ml-2 mr-2"
-                color="primary"
-                (click)="onFollowUser(article.author.username)"
-              >
-                Subscribe
-              </button>
-            } @else {
-              <button
-                mat-stroked-button
-                class="ml-2 mr-2"
-                color="primary"
-                (click)="onUnfollowUser(article.author.username)"
-              >
-                Unsubscribe
-              </button>
-            }
-            @if (!favorited) {
-              <button
-                mat-raised-button
-                class="favorite-button"
-                color="accent"
-                (click)="onFavoriteArticle(article.slug)"
-              >
-                Favorite
-              </button>
-            } @else {
-              <button
-                mat-stroked-button
-                class="favorite-button"
-                color="accent"
-                (click)="onUnFavoriteArticle(article.slug)"
-              >
-                Unfavorite
-              </button>
+            @if(article.author.username !== currentUser.user.username) {
+              @if (!followed) {
+                <button
+                  mat-raised-button
+                  class="ml-2 mr-2"
+                  color="primary"
+                  (click)="onFollowUser(article.author.username)"
+                >
+                  Subscribe
+                </button>
+              } @else {
+                <button
+                  mat-stroked-button
+                  class="ml-2 mr-2"
+                  color="primary"
+                  (click)="onUnfollowUser(article.author.username)"
+                >
+                  Unsubscribe
+                </button>
+              }
+              @if (!favorited) {
+                <button
+                  mat-raised-button
+                  class="favorite-button"
+                  color="accent"
+                  (click)="onFavoriteArticle(article.slug)"
+                >
+                  Favorite
+                </button>
+              } @else {
+                <button
+                  mat-stroked-button
+                  class="favorite-button"
+                  color="accent"
+                  (click)="onUnFavoriteArticle(article.slug)"
+                >
+                  Unfavorite
+                </button>
+              }
             }
           </div>
         </div>
@@ -103,5 +105,5 @@
       </mat-card-actions>
     }
   </mat-card>
-  <article-comments [slug]="article.slug"> </article-comments>
+  <article-comments [slug]="article.slug"></article-comments>
 </div>

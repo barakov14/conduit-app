@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core'
+import {ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit} from '@angular/core'
 import {ArticlesListComponent} from '../articles-list/articles-list.component'
 import {select, Store} from '@ngrx/store'
 import {articleActions} from '../../data-access/+state/article.actions'
@@ -14,6 +14,8 @@ import {AsyncPipe} from '@angular/common'
 import {PaginationComponent} from '../../../../shared/ui/pagination/pagination.component'
 import {MatProgressBar} from '@angular/material/progress-bar'
 import {FeedTabsComponent} from '../../../../shared/ui/feed-tabs/feed-tabs.component'
+import {Subscription} from "rxjs";
+import {selectCurrentUser} from "../../../../core/auth/data-access/+state/auth.selectors";
 
 @Component({
   selector: 'articles-list-container',
@@ -40,9 +42,9 @@ export class ArticlesListContainerComponent implements OnInit {
 
   public readonly tagList$ = this.store.pipe(select(selectTagList))
 
-  public currentPage!: number
+  public currentPage: number = 1
 
-  public currentFeed!: string
+  public currentFeed: string = ''
 
   ngOnInit() {
     this.store.dispatch(
@@ -72,9 +74,9 @@ export class ArticlesListContainerComponent implements OnInit {
 
   private navigateToArticlesList(queryParams?: Params): void {
     const page = queryParams?.['page'] || '1'
-    const feedQueryParam = this.currentFeed
+    const feedQueryParam = this.currentFeed && this.currentFeed !== 'feed'
       ? `?tag=${this.currentFeed}&offset=${page}`
-      : `?offset=${page}`
+      : `/${this.currentFeed}?offset=${page}`
 
     const queryParamsWithFeed = {...queryParams}
     if (this.currentFeed) {
@@ -82,9 +84,9 @@ export class ArticlesListContainerComponent implements OnInit {
     }
 
     const navigationExtras = {queryParams: queryParamsWithFeed}
-    console.log(navigationExtras)
 
     this.router.navigate(['/articles'], navigationExtras)
+
     this.store.dispatch(articleActions.loadArticles({feed: feedQueryParam}))
   }
 

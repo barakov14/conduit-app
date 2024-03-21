@@ -26,7 +26,7 @@ export class FeedTabsComponent {
   @Input() tagList!: TagList
   @Output() feedChoose = new EventEmitter<string>()
 
-  active!: string
+  active: string = ''
 
   onFeedChoose(feed: string) {
     this.feedChoose.emit(feed)

@@ -87,12 +87,12 @@
           [loadingStatus]="articleLoadingStatus"
         ></articles-list>
       </div>
+      <pagination
+        [totalPages]="Math.ceil(articlesList.articlesCount / 10)"
+        [currentPage]="currentPage"
+        (currentPageChanged)="onFeedPageChoose($event)"
+      ></pagination>
     }
     <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
-    <pagination
-      [totalPages]="Math.ceil(articlesList.articlesCount / 10)"
-      [currentPage]="currentPage"
-      (currentPageChanged)="onFeedPageChoose($event)"
-    ></pagination>
   </div>
 }
