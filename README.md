@@ -9,18 +9,27 @@ Conduit Angular is a full-stack web application built using Angular, Angular Ser
 # Features
 
 User Authentication: Allows users to sign up, sign in, and sign out securely.
+
 Article Management: Users can create, edit, delete, and view articles.
+
 User Profiles: Each user has a profile page showcasing their information and articles.
+
 Comments: Users can comment on articles and view comments on articles.
+
 Followers/Following: Users can follow other users to stay updated on their activity.
+
 Favorites: Users can mark articles as favorites and view their favorite articles.
 
 # Technologies Used
 
 Angular: A powerful front-end framework for building web applications.
+
 Angular SSR: Enables server-side rendering for improved performance and SEO.
+
 RxJS: A library for reactive programming used extensively for handling asynchronous operations.
+
 Angular Material: Provides pre-designed UI components for a consistent and polished user interface.
+
 NgRx: A state management library for Angular applications, used for managing application state and data flow.
 
 
